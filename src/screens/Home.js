@@ -19,7 +19,7 @@ export default function Home(data) {
     useEffect(() => {
         fetchProfile();
         console.log(profile);
-    }, [{}])
+    }, [])
 
     return(
         <View>

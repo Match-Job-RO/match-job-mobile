@@ -30,14 +30,14 @@ export default function Login() {
           className="mb-8"
         >
           <Text
-            className="font-light text-6xl"
+            className="font-light text-4xl"
           >
             Login
           </Text>
         </View>
         <View>
           <Text
-            className="font-extralight text-3xl"
+            className="font-extralight text-2xl"
           >
             Bem Vindo ao Match Job-RO
           </Text>
