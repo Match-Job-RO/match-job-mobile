@@ -15,6 +15,7 @@ export default function Login() {
       password,
     };
     const data = await login(userData);
+    console.log(data);
     navgation.navigate("Home", { data });
   }
 
@@ -51,6 +52,8 @@ export default function Login() {
             placeholder="E-mail" 
             className="p-2 text-2xl font-extralight"
             textContentType="emailAddress"
+            onChangeText={setEmail}
+            value={email}
           />
         </View>
         <View>
@@ -59,9 +62,19 @@ export default function Login() {
             placeholder="Senha"
             className="p-2 text-2xl font-extralight"
             textContentType="password"
+            secureTextEntry={true}
+            onChangeText={setPassword}
+            value={password}
             />
             {/* Icone de olho */}
         </View>
+        <View className="p-4">
+          <TouchableOpacity onPress={() => navgation.navigate("Signup")}>
+            <Text style={{ color: "blue", textDecorationLine: "underline" }}>
+              Cadastre-se
+            </Text>
+          </TouchableOpacity>
+      </View>
         <View>
           <TouchableOpacity
             className="flex items-center justify-center bg-purple rounded-md p-4"
