@@ -3,6 +3,8 @@ import { View, Text, TextInput, Button } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { signup } from "../services/signupService";
 import { login } from "../services/loginService";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 export default function Signup() {
   const navgation = useNavigation();
@@ -22,55 +24,76 @@ export default function Signup() {
   }
 
   return (
-    <View className="mx-auto">
-      <View className="mx-auto mt-16 p-8 text-center">
-        <Text className="text-black text-4xl font-normal font-['Comfortaa']">
-          Signup
-        </Text>
+   <SafeAreaView
+    className="p-16 "
+    >
+      <View
+        className="flex justify-center items-center py-16"
+      >
+        <View
+          className="mb-8"
+        >
+          <Text
+            className="font-light text-6xl"
+          >
+            Cadastro
+          </Text>
+        </View>
+        <View>
+          <Text
+            className="font-extralight text-3xl"
+          >
+            Bem Vindo ao Match Job-RO
+          </Text>
+        </View>
       </View>
-
-      <View className="p-4">
-        <Text className="text-black text-xl font-normal font-['Offside']">
-          Bem Vindo ao Match Job-RO
-        </Text>
-      </View>
-
-      <View>
-        <View className="p-4">
-          <Text>Nome</Text>
+      <View
+        className="flex justify-center gap-10"
+      >
+        <View>
           <TextInput
-            placeholder="Nome"
-            value={name}
+            placeholder="Nome" 
+            className="p-2 text-2xl font-extralight"
             onChangeText={setName}
-            className="border-2 border-black mt-2 p-1 px-2 rounded-md"
+            value={name}
           />
         </View>
-
-        <View className="p-4">
-          <Text>Email</Text>
+        <View>
+          {/* Icone de Email */}
           <TextInput
-            placeholder="Email"
-            value={email}
+            placeholder="E-mail" 
+            className="p-2 text-2xl font-extralight"
+            textContentType="emailAddress"
             onChangeText={setEmail}
-            className="border-2 border-black p-1 px-2 rounded-md"
+            value={email}
           />
         </View>
-
-        <View className="p-4">
-          <Text>Senha</Text>
+        <View>
+          {/* Icone de cadeado */}
           <TextInput
             placeholder="Senha"
-            value={password}
-            onChangeText={setPassword}
-            className="border-2 border-black p-1 px-2 rounded-md"
+            className="p-2 text-2xl font-extralight"
             textContentType="password"
-          />
+            secureTextEntry={true}
+            onChangeText={setPassword}
+            value={password}
+            />
+            {/* Icone de olho */}
+        </View>
+        <View className="p-4">
+      </View>
+        <View>
+          <TouchableOpacity
+            className="flex items-center justify-center bg-purple rounded-md p-4"
+            onPress={() => handleLogin()}
+          >
+            <Text
+              className="font-bold text-3xl text-white"
+            >
+              Entrar
+            </Text>
+          </TouchableOpacity> 
         </View>
       </View>
-
-      <View className="p-4">
-        <Button title="Entrar" onPress={handleSignup} />
-      </View>
-    </View>
-  );
+  </SafeAreaView>  );
 }
