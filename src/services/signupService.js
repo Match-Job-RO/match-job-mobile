@@ -1,7 +1,7 @@
 export async function signup(userData) {
   try {
     const baseUrl = process.env.EXPO_PUBLIC_BASE_URL;
-    const data = await fetch(`${baseUrl}/signup`, {
+    const data = await fetch(`${baseUrl}/user`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

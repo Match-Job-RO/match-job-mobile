@@ -2,6 +2,7 @@ import { useState } from "react";
 import { View, Text, TextInput, Button } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { signup } from "../services/signupService";
+import { login } from "../services/loginService";
 
 export default function Signup() {
   const navgation = useNavigation();
@@ -15,8 +16,9 @@ export default function Signup() {
       email,
       password,
     };
-    const data = await signup(userData);
-    navgation.navigate("Home", { data });
+    const createdUserData = await signup(userData);
+    const loginData = await login({ email, password});
+    navgation.navigate("Home", { loginData });
   }
 
   return (

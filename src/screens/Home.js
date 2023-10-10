@@ -10,13 +10,15 @@ export default function Home(data) {
 
     async function fetchProfile() {
         const userData = await getUserById(paramData.userId, paramData.token);
+        console.log("userData:", userData);
         const profileData = await getProfileById(userData.profiles.id, paramData.token);
+        console.log("profileData:", profileData);
         setProfile(profileData);
     }
 
     useEffect(() => {
         fetchProfile();
-        console.log(profile.posts);
+        console.log(profile);
     }, [])
 
     return(
