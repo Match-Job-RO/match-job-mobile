@@ -1,6 +1,7 @@
-import { useState } from "react";
-import { View, Text, TextInput, Button, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { useState } from "react";
+import { Text, TextInput, TouchableOpacity, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { login } from "../services/loginService";
 
 export default function Login() {
@@ -18,53 +19,61 @@ export default function Login() {
   }
 
   return (
-    <View className="mx-auto">
-      <View className="mx-auto mt-16 p-8 text-center">
-        <Text className="text-black text-4xl font-normal font-['Comfortaa']">
-          Login
-        </Text>
+    <SafeAreaView
+    className="p-16 "
+    >
+      <View
+        className="flex justify-center items-center py-16"
+      >
+        <View
+          className="mb-8"
+        >
+          <Text
+            className="font-light text-6xl"
+          >
+            Login
+          </Text>
+        </View>
+        <View>
+          <Text
+            className="font-extralight text-3xl"
+          >
+            Bem Vindo ao Match Job-RO
+          </Text>
+        </View>
       </View>
-
-      <View className="p-4">
-        <Text className="text-black text-xl font-normal font-['Offside']">
-          Bem Vindo ao Match Job-RO
-        </Text>
-      </View>
-
-      <View>
-        <View className="p-4">
-          <Text>Email</Text>
+      <View
+        className="flex justify-center gap-10"
+      >
+        <View>
+          {/* Icone de Email */}
           <TextInput
-            placeholder="Email"
-            value={email}
-            onChangeText={setEmail}
-            className="border-2 border-black mt-2 p-1 px-2 rounded-md"
+            placeholder="E-mail" 
+            className="p-2 text-2xl font-extralight"
+            textContentType="emailAddress"
           />
         </View>
-
-        <View className="p-4">
-          <Text>Senha</Text>
+        <View>
+          {/* Icone de cadeado */}
           <TextInput
             placeholder="Senha"
-            value={password}
-            onChangeText={setPassword}
-            className="border-2 border-black p-1 px-2 rounded-md"
+            className="p-2 text-2xl font-extralight"
             textContentType="password"
-          />
+            />
+            {/* Icone de olho */}
+        </View>
+        <View>
+          <TouchableOpacity
+            className="flex items-center justify-center bg-purple rounded-md p-4"
+            onPress={() => handleLogin()}
+          >
+            <Text
+              className="font-bold text-3xl text-white"
+            >
+              Entrar
+            </Text>
+          </TouchableOpacity> 
         </View>
       </View>
-
-      <View className="p-4">
-        <TouchableOpacity onPress={() => navgation.navigate("Signup")}>
-          <Text style={{ color: "blue", textDecorationLine: "underline" }}>
-            Cadastre-se
-          </Text>
-        </TouchableOpacity>
-      </View>
-
-      <View className="p-4">
-        <Button title="Entrar" onPress={handleLogin} />
-      </View>
-    </View>
-  );
+  </SafeAreaView>);
 }

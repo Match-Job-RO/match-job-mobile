@@ -19,7 +19,7 @@ export default function Home(data) {
     useEffect(() => {
         fetchProfile();
         console.log(profile);
-    }, [])
+    }, [{}])
 
     return(
         <View>
@@ -29,10 +29,10 @@ export default function Home(data) {
             <View>
                 <Text>{profile.name}</Text>
             </View>
-            {/* <View>
-                <Text>{profile.posts.title}</Text>
-                <Text>{profile.posts.content}</Text>
-            </View> */}
+            <View>
+                <Text>{profile.posts?.title}</Text>
+                <Text>{profile.posts?.content}</Text>
+            </View>
         </View>
     )
 }
