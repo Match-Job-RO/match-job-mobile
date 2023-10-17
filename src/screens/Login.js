@@ -78,7 +78,7 @@ export default function Login() {
         <View>
           <TouchableOpacity
             className="flex items-center justify-center bg-purple rounded-md p-4"
-            onPress={() => handleLogin()}
+            onPress={handleLogin}
           >
             <Text
               className="font-bold text-3xl text-white"
