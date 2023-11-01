@@ -34,46 +34,11 @@ export default function Home({ route, navigation }) {
   };
 
   return (
-    <View style={styles.container}>
+    <View>
       <Text>Home</Text>
       <Text>{profile.name}</Text>
       <Text>{profile.posts?.title}</Text>
       <Text>{profile.posts?.content}</Text>
-
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.button} onPress={handleCreateService}>
-          <Text style={styles.buttonText}>Cadastrar Serviço</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.button} onPress={handlePublishService}>
-          <Text style={styles.buttonText}>Publicar Serviço</Text>
-        </TouchableOpacity>
-      </View>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: 'white',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  buttonContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-  },
-  button: {
-    backgroundColor: 'blue',
-    width: 100,
-    height: 100,
-    borderRadius: 50,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  buttonText: {
-    color: 'white',
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
-});

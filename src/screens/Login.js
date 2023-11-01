@@ -16,8 +16,7 @@ export default function Login() {
       password,
     };
     const data = await login(userData);
-    console.log(data);
-    navgation.navigate("Home", { data });
+    // navgation.navigate("Home", { data });
   }
 
   return (

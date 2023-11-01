@@ -10,6 +10,7 @@ export async function login(userData) {
             }).then((res) => {
                 return res.text();
             });
+            console.log(JSON.stringify(userData));
             return data;
         } catch(err) {
             console.log(err);
