@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Text,
   View,
@@ -7,11 +7,30 @@ import {
 } from "react-native";
 import { getUserById } from "../services/fetchUserService";
 import { getProfileById } from "../services/fetchProfileService";
-import { handleCallNotifications } from "../services/notificationsService";
+import { registerForPushNotificationsAsync } from "../services/notificationsService";
+import * as Notifications from "expo-notifications";
 
 export default function Home({ route, navigation }) {
   const paramData = route.params.data;
   const [profile, setProfile] = useState({ name: "", posts: {} });
+  const [expoPushToken, setExpoPushToken] = useState("");
+  const notificationListener = useRef();
+  const responseListener = useRef();
+  const [notification, setNotification] = useState(false);
+  
+ async function handleCallNotification() {
+ 
+    await Notifications.scheduleNotificationAsync({
+      content: {
+        title: "Bem vindo ao Match Job",
+        body: "Ficamos Felizes por estar Aqui!",
+      },
+      trigger: {
+        seconds: 5,
+      },
+    });
+  };
+
   async function fetchProfile() {
     try {
       const userData = await getUserById(paramData.userId, paramData.token);
@@ -28,8 +47,36 @@ export default function Home({ route, navigation }) {
   }
 
   useEffect(() => {
-    fetchProfile();
-  }, []);
+    registerForPushNotificationsAsync().then(token => {
+      if (token == null) {
+        console.error("Ops");
+        return;
+      }
+      setExpoPushToken(token);
+    });
+
+    notificationListener.current =
+      Notifications.addNotificationReceivedListener(notification => {
+        setNotification(true);
+      });
+
+    responseListener.current =
+      Notifications.addNotificationResponseReceivedListener(response => {
+        console.log(response);
+      });
+
+    return () => {
+      if (notificationListener.current !== undefined) {
+        Notifications.removeNotificationSubscription(
+          notificationListener.current,
+        );
+      }
+
+      if (responseListener.current !== undefined) {
+        Notifications.removeNotificationSubscription(responseListener.current);
+      }
+    };
+  });
 
   const handleCreateService = () => {
     // Lógica para navegar para a tela de cadastro de serviço
@@ -57,7 +104,7 @@ export default function Home({ route, navigation }) {
         </TouchableOpacity>
         <Button
           title="Chamar notificação"
-          onPress={handleCallNotifications}
+          onPress={handleCallNotification}
         />
       </View>
     </View>
