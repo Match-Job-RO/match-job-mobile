@@ -7,7 +7,7 @@ import {
 } from "react-native";
 import { getUserById } from "../services/fetchUserService";
 import { getProfileById } from "../services/fetchProfileService";
-import { registerForPushNotificationsAsync } from "../services/notificationsService";
+import { registerForPushNotificationsAsync } from "../services/notificationService";
 import * as Notifications from "expo-notifications";
 
 export default function Home({ route, navigation }) {
