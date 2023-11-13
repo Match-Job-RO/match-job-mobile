@@ -1,10 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import {
-  Text,
-  View,
-  TouchableOpacity,
-  Button,
-} from "react-native";
+import { Text, View, TouchableOpacity, Button } from "react-native";
 import { getUserById } from "../services/fetchUserService";
 import { getProfileById } from "../services/fetchProfileService";
 import { registerForPushNotificationsAsync } from "../services/notificationService";
@@ -17,9 +12,8 @@ export default function Home({ route, navigation }) {
   const notificationListener = useRef();
   const responseListener = useRef();
   const [notification, setNotification] = useState(false);
-  
- async function handleCallNotification() {
- 
+
+  async function handleCallNotification() {
     await Notifications.scheduleNotificationAsync({
       content: {
         title: "Bem vindo ao Match Job",
@@ -29,7 +23,7 @@ export default function Home({ route, navigation }) {
         seconds: 5,
       },
     });
-  };
+  }
 
   async function fetchProfile() {
     try {
@@ -47,7 +41,7 @@ export default function Home({ route, navigation }) {
   }
 
   useEffect(() => {
-    registerForPushNotificationsAsync().then(token => {
+    registerForPushNotificationsAsync().then((token) => {
       if (token == null) {
         console.error("Ops");
         return;
@@ -56,19 +50,19 @@ export default function Home({ route, navigation }) {
     });
 
     notificationListener.current =
-      Notifications.addNotificationReceivedListener(notification => {
+      Notifications.addNotificationReceivedListener((notification) => {
         setNotification(true);
       });
 
     responseListener.current =
-      Notifications.addNotificationResponseReceivedListener(response => {
+      Notifications.addNotificationResponseReceivedListener((response) => {
         console.log(response);
       });
 
     return () => {
       if (notificationListener.current !== undefined) {
         Notifications.removeNotificationSubscription(
-          notificationListener.current,
+          notificationListener.current
         );
       }
 
@@ -88,6 +82,10 @@ export default function Home({ route, navigation }) {
     navigation.navigate("PublicarServico");
   };
 
+  const openMap = () => {
+    navigation.navigate("Map");
+  };
+
   return (
     <View>
       <Text>Home</Text>
@@ -102,10 +100,11 @@ export default function Home({ route, navigation }) {
         <TouchableOpacity onPress={handlePublishService}>
           <Text>Publicar Serviço</Text>
         </TouchableOpacity>
-        <Button
-          title="Chamar notificação"
-          onPress={handleCallNotification}
-        />
+        <Button title="Chamar notificação" onPress={handleCallNotification} />
+
+        <TouchableOpacity onPress={openMap}>
+          <Text>Abrir Mapa</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
