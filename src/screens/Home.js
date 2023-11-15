@@ -30,16 +30,6 @@ export default function Home({ route, navigation }) {
   async function fetchProfile() {
     console.log(paramData?.userId);
     try {
-      console.log("-----------DADOS DO CARALHO-----------");
-      console.log("");
-      console.log(paramData.userId, paramData.token);
-      console.log("");
-      console.log("");
-      console.log("");
-      console.log("");
-      console.log("");
-      console.log("-----------FIM DADOS DO CARALHO-----------");
-
       const userData = await getUserById(paramData.userId, paramData.token);
       console.log("userData:", userData);
       const profileData = await getProfileById(
