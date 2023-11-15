@@ -15,9 +15,9 @@ export default function Login() {
       email,
       password,
     };
-    const data = await login(userData);
-    console.log(data);
-    navgation.navigate("Home", { data });
+    await login(userData).then((data) => {
+      navgation.navigate("Home", { data });
+    });
   }
 
   return (
@@ -50,7 +50,6 @@ export default function Login() {
               placeholder="Senha"
               className="p-2 text-2xl font-extralight"
               textContentType="password"
-              secureTextEntry={true}
               onChangeText={setPassword}
               value={password}
             />

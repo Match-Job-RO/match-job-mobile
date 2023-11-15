@@ -7,11 +7,13 @@ import * as Notifications from "expo-notifications";
 
 export default function Home({ route, navigation }) {
   const paramData = route.params.data;
+  console.log("PARAMDATA:", paramData);
   const [profile, setProfile] = useState({ name: "", posts: {} });
   const [expoPushToken, setExpoPushToken] = useState("");
   const notificationListener = useRef();
   const responseListener = useRef();
   const [notification, setNotification] = useState(false);
+  const [isLoading, setLoading] = useState(true);
 
   async function handleCallNotification() {
     await Notifications.scheduleNotificationAsync({
@@ -26,7 +28,18 @@ export default function Home({ route, navigation }) {
   }
 
   async function fetchProfile() {
+    console.log(paramData?.userId);
     try {
+      console.log("-----------DADOS DO CARALHO-----------");
+      console.log("");
+      console.log(paramData.userId, paramData.token);
+      console.log("");
+      console.log("");
+      console.log("");
+      console.log("");
+      console.log("");
+      console.log("-----------FIM DADOS DO CARALHO-----------");
+
       const userData = await getUserById(paramData.userId, paramData.token);
       console.log("userData:", userData);
       const profileData = await getProfileById(
@@ -34,7 +47,7 @@ export default function Home({ route, navigation }) {
         paramData.token
       );
       console.log("profileData:", profileData);
-      setProfile(profileData);
+      return profileData;
     } catch (error) {
       console.error("Erro ao buscar dados do perfil:", error);
     }
@@ -58,6 +71,13 @@ export default function Home({ route, navigation }) {
       Notifications.addNotificationResponseReceivedListener((response) => {
         console.log(response);
       });
+
+    if (isLoading) {
+      fetchProfile().then((profileData) => {
+        setProfile(profileData);
+        setLoading(false);
+      });
+    }
 
     return () => {
       if (notificationListener.current !== undefined) {
@@ -86,13 +106,16 @@ export default function Home({ route, navigation }) {
     navigation.navigate("Map");
   };
 
+  if (isLoading) return <Text>Loading...</Text>;
+
   return (
     <View>
-      <Text>Home</Text>
-      <Text>{profile.name}</Text>
-      <Text>{profile.posts?.title}</Text>
-      <Text>{profile.posts?.content}</Text>
-
+      <View>
+        <Text>Home</Text>
+        <Text>{profile?.name}</Text>
+        <Text>{profile.posts[0]?.title}</Text>
+        <Text>{profile.posts[0]?.content}</Text>
+      </View>
       <View>
         <TouchableOpacity onPress={handleCreateService}>
           <Text>Cadastrar Serviço</Text>
