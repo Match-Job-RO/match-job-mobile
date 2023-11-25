@@ -8,8 +8,7 @@ import { BottomNavgator } from "../Navgator/Navgator";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function Home() {
-  let loginData;
-  const [profile, setProfile] = useState({ name: "", posts: {} });
+  const [profile, setProfile] = useState();
   const [expoPushToken, setExpoPushToken] = useState("");
   const notificationListener = useRef();
   const responseListener = useRef();
@@ -19,32 +18,25 @@ export default function Home() {
   async function getLocalStorageItem() {
     try {
       const jsonValue = await AsyncStorage.getItem("loginData");
-      loginData = JSON.parse(jsonValue);
+      return JSON.parse(jsonValue);
     } catch (error) {
-      console.error(error);
+      console.error("Erro ao obter dados de login:", error);
+      return null;
     }
   }
 
   async function registerForPushNotifications() {
-  try {
-    const token = await registerForPushNotificationsAsync();
-    if (token == null) {
-      console.error("Ops");
-      return;
+    try {
+      const token = await registerForPushNotificationsAsync();
+      if (token == null) {
+        console.error("Ops");
+        return;
+      }
+      setExpoPushToken(token);
+    } catch (error) {
+      console.error("Erro ao registrar notificações:", error);
     }
-    setExpoPushToken(token);
-
-    notificationListener.current = Notifications.addNotificationReceivedListener((notification) => {
-      setNotification(true);
-    });
-
-    responseListener.current = Notifications.addNotificationResponseReceivedListener((response) => {
-      console.log(response);
-    });
-  } catch (error) {
-    console.error("Erro ao registrar notificações:", error);
   }
-}
 
   async function handleCallNotification() {
     await Notifications.scheduleNotificationAsync({
@@ -58,50 +50,48 @@ export default function Home() {
     });
   }
 
-  async function fetchProfile() {
-    await getLocalStorageItem();
+  async function fetchAndSetProfile() {
+    const loginData = await getLocalStorageItem();
+
+    if (!loginData) {
+      console.error("Dados de login não encontrados");
+      return;
+    }
+
     try {
       const userData = await getUserById(loginData.userId, loginData.token);
       console.log(userData);
-      const profileData = await getProfileById(
-        userData.profiles.id,
-        loginData.token
-      );
-      return profileData;
-    } catch (error) {
-      console.error("Erro ao buscar dados do perfil: ", error);
-    }
-  }
-
-  async function fetchData() {
-  try {
-    await registerForPushNotifications();
-    
-    if (isLoading) {
-      const profileData = await fetchProfile();
+      const profileData = await getProfileById(userData.profiles.id, loginData.token);
       setProfile(profileData);
+    } catch (error) {
+      console.error("Erro ao buscar dados do perfil:", error);
+    } finally {
       setIsLoading(false);
     }
-  } catch (error) {
-    console.error("Erro ao buscar dados:", error);
   }
-}
 
   useEffect(() => {
-    fetchData();
+    fetchAndSetProfile();
+    registerForPushNotifications();
+
+    notificationListener.current = Notifications.addNotificationReceivedListener((notification) => {
+      setNotification(true);
+    });
+
+    responseListener.current = Notifications.addNotificationResponseReceivedListener((response) => {
+      console.log(response);
+    });
 
     return () => {
       if (notificationListener.current !== undefined) {
-        Notifications.removeNotificationSubscription(
-          notificationListener.current
-        );
+        Notifications.removeNotificationSubscription(notificationListener.current);
       }
 
       if (responseListener.current !== undefined) {
         Notifications.removeNotificationSubscription(responseListener.current);
       }
     };
-  }, [fetchData]);
+  }, []);
 
   const handleCreateService = () => {
     // Lógica para navegar para a tela de cadastro de serviço
@@ -140,7 +130,7 @@ export default function Home() {
           <Text>Abrir Mapa</Text>
         </TouchableOpacity>
       </View>
-      <BottomNavgator />
+      {/* <BottomNavgator /> */}
     </View>
 
   );

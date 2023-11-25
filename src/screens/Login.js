@@ -16,7 +16,7 @@ export default function Login() {
       password,
     };
     await login(userData).then((data) => {
-      navgation.navigate("Home", { data });
+      navgation.navigate("Home");
     });
   }
 
