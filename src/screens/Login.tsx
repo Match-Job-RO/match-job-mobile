@@ -9,10 +9,9 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { login } from "../services/loginService";
-import { HomeScreenProps } from "../Navgator/Navgator";
 
 export default function Login() {
-	const navigator = useNavigation<HomeScreenProps>();
+	const navigation = useNavigation();
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 
@@ -22,7 +21,7 @@ export default function Login() {
 			password,
 		};
 		await login(userData).then((data) => {
-			navigator.navigation.navigate("Home");
+			navigation.navigate("Home");
 		});
 	}
 
@@ -62,8 +61,7 @@ export default function Login() {
 						{/* Icone de olho */}
 					</View>
 					<View className="p-4">
-						<TouchableOpacity
-							onPress={() => navigator.navigation.navigate("Signup")}>
+						<TouchableOpacity onPress={() => navigation.navigate("Signup")}>
 							<Text style={{ color: "blue", textDecorationLine: "underline" }}>
 								Cadastre-se
 							</Text>

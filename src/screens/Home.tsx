@@ -6,13 +6,12 @@ import { registerForPushNotificationsAsync } from "../services/notificationServi
 import * as Notifications from "expo-notifications";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
-import { HomeScreenProps } from "../Navgator/Navgator";
 import { ILoginResponse } from "../intefarces/login.interface";
 import { IUserData } from "../intefarces/user.interface";
 import { IProfile } from "../intefarces/profile.interface";
 
 export default function Home() {
-	const navigator = useNavigation<HomeScreenProps>();
+	const navigation = useNavigation();
 	const [profile, setProfile] = useState({} as IProfile);
 	const [expoPushToken, setExpoPushToken] = useState("");
 	const notificationListener = useRef<Notifications.Subscription>();
@@ -23,9 +22,10 @@ export default function Home() {
 	async function getLocalStorageItem(): Promise<ILoginResponse> {
 		const jsonValue = await AsyncStorage.getItem("loginData");
 		if (jsonValue == null) {
-			navigator.navigation.navigate("Login");
+			navigation.navigate("Login");
 		}
 		const data: ILoginResponse = JSON.parse(jsonValue!);
+		console.log(data);
 		return data;
 	}
 
@@ -61,15 +61,17 @@ export default function Home() {
 				loginData.userId,
 				loginData.token
 			);
+			console.log(userData);
+
 			const profileData: IProfile = await getProfileById(
 				userData.profiles.id,
 				loginData.token
 			);
 			setProfile(profileData);
-		} catch (error) {
-			console.error("Erro ao buscar dados do perfil:", error);
-		} finally {
 			setIsLoading(false);
+			await AsyncStorage.clear();
+		} catch (error) {
+			navigation.navigate("Login");
 		}
 	}
 
@@ -101,18 +103,20 @@ export default function Home() {
 	}, []);
 
 	const openMap = () => {
-		navigator.navigation.navigate("Map");
+		navigation.navigate("Map");
 	};
 
 	if (isLoading) return <Text>Loading...</Text>;
+
+	console.log(profile);
 
 	return (
 		<View>
 			<View>
 				<Text>Home</Text>
 				<Text>{profile?.name}</Text>
-				<Text>{profile.posts[0]?.title}</Text>
-				<Text>{profile.posts[0]?.content}</Text>
+				<Text>{profile?.posts[0]?.title}</Text>
+				<Text>{profile?.posts[0]?.content}</Text>
 			</View>
 			<View>
 				<Button title="Chamar notificação" onPress={handleCallNotification} />
