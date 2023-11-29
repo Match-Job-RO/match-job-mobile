@@ -5,6 +5,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
 import { signup } from "../services/signupService";
 import { login } from "../services/loginService";
+import { createProfile } from "../services/fetchProfileService";
 
 export default function Signup(): JSX.Element {
   const navigator = useNavigation();
@@ -19,7 +20,8 @@ export default function Signup(): JSX.Element {
       password,
     };
     await signup(userData);
-    await login({ email, password });
+    const loginData = await login({ email, password });
+    await createProfile(loginData.userId, loginData.token);
     navigator.navigate("Home");
   }
 

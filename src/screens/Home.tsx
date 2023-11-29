@@ -76,6 +76,7 @@ export default function Home() {
   async function fetchAndSetProfile() {
     const loginData = await getLocalStorageItem();
     const userData: IUserData = await fetchUserData();
+    setIsLoading(false);
     try {
       const profileData: IProfile = await getProfileById(
         userData.profiles.id!,
@@ -83,7 +84,6 @@ export default function Home() {
       );
 
       setProfile(profileData);
-      setIsLoading(false);
     } catch (error) {
       console.error("Nenhum perfil cadastrado");
     }
@@ -126,12 +126,12 @@ export default function Home() {
 
   return (
     <View>
-      <View>
+      {/* <View>
         <Text>Home</Text>
         <Text>{profile?.name}</Text>
         <Text>{profile?.posts[0]?.title}</Text>
         <Text>{profile?.posts[0]?.content}</Text>
-      </View>
+      </View> */}
       <View>
         <Button title="Chamar notificação" onPress={handleCallNotification} />
 
