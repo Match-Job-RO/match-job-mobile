@@ -11,121 +11,135 @@ import { IUserData } from "../intefarces/user.interface";
 import { IProfile } from "../intefarces/profile.interface";
 
 export default function Home() {
-	const navigation = useNavigation();
-	const [profile, setProfile] = useState({} as IProfile);
-	const [expoPushToken, setExpoPushToken] = useState("");
-	const notificationListener = useRef<Notifications.Subscription>();
-	const responseListener = useRef<Notifications.Subscription>();
-	const [notification, setNotification] = useState(false);
-	const [isLoading, setIsLoading] = useState(true);
+  const navigation = useNavigation();
+  const [profile, setProfile] = useState({} as IProfile);
+  const [expoPushToken, setExpoPushToken] = useState("");
+  const notificationListener = useRef<Notifications.Subscription>();
+  const responseListener = useRef<Notifications.Subscription>();
+  const [notification, setNotification] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [token, setToken] = useState("");
+  const [userId, setUserId] = useState<number>();
 
-	async function getLocalStorageItem(): Promise<ILoginResponse> {
-		const jsonValue = await AsyncStorage.getItem("loginData");
-		if (jsonValue == null) {
-			navigation.navigate("Login");
-		}
-		const data: ILoginResponse = JSON.parse(jsonValue!);
-		console.log(data);
-		return data;
-	}
+  async function getLocalStorageItem(): Promise<ILoginResponse> {
+    const jsonValue = await AsyncStorage.getItem("loginData");
 
-	async function registerForPushNotifications() {
-		try {
-			const token = await registerForPushNotificationsAsync();
-			if (token == null) {
-				console.error("Ops");
-				return;
-			}
-			setExpoPushToken(token);
-		} catch (error) {
-			console.error("Erro ao registrar notificações:", error);
-		}
-	}
+    if (jsonValue == null) {
+      navigation.navigate("Login");
+    }
 
-	async function handleCallNotification() {
-		await Notifications.scheduleNotificationAsync({
-			content: {
-				title: "Bem vindo ao Match Job",
-				body: "Ficamos Felizes por estar Aqui!",
-			},
-			trigger: {
-				seconds: 5,
-			},
-		});
-	}
+    const data: ILoginResponse = JSON.parse(jsonValue!);
+    return data;
+  }
 
-	async function fetchAndSetProfile() {
-		const loginData: ILoginResponse = await getLocalStorageItem();
-		try {
-			const userData: IUserData = await getUserById(
-				loginData.userId,
-				loginData.token
-			);
-			console.log(userData);
+  async function registerForPushNotifications() {
+    try {
+      const token = await registerForPushNotificationsAsync();
+      if (token == null) {
+        console.error("Ops");
+        return;
+      }
+      setExpoPushToken(token);
+    } catch (error) {
+      console.error("Erro ao registrar notificações:", error);
+    }
+  }
 
-			const profileData: IProfile = await getProfileById(
-				userData.profiles.id,
-				loginData.token
-			);
-			setProfile(profileData);
-			setIsLoading(false);
-			await AsyncStorage.clear();
-		} catch (error) {
-			navigation.navigate("Login");
-		}
-	}
+  async function handleCallNotification() {
+    await Notifications.scheduleNotificationAsync({
+      content: {
+        title: "Bem vindo ao Match Job",
+        body: "Ficamos Felizes por estar Aqui!",
+      },
+      trigger: {
+        seconds: 5,
+      },
+    });
+  }
 
-	useEffect(() => {
-		fetchAndSetProfile();
-		registerForPushNotifications();
+  async function fetchUserData() {
+    try {
+      const loginData = await getLocalStorageItem();
+      const userData: IUserData = await getUserById(
+        loginData.userId,
+        loginData.token
+      );
 
-		notificationListener.current =
-			Notifications.addNotificationReceivedListener((notification) => {
-				setNotification(true);
-			});
+      return userData;
+    } catch (error) {
+      console.log(error);
 
-		responseListener.current =
-			Notifications.addNotificationResponseReceivedListener((response) => {
-				console.log(response);
-			});
+      navigation.navigate("Login");
+    }
+  }
 
-		return () => {
-			if (notificationListener.current !== undefined) {
-				Notifications.removeNotificationSubscription(
-					notificationListener.current
-				);
-			}
+  async function fetchAndSetProfile() {
+    const loginData = await getLocalStorageItem();
+    const userData: IUserData = await fetchUserData();
+    try {
+      const profileData: IProfile = await getProfileById(
+        userData.profiles.id!,
+        loginData.token
+      );
 
-			if (responseListener.current !== undefined) {
-				Notifications.removeNotificationSubscription(responseListener.current);
-			}
-		};
-	}, []);
+      setProfile(profileData);
+      setIsLoading(false);
+    } catch (error) {
+      console.error("Nenhum perfil cadastrado");
+    }
+  }
 
-	const openMap = () => {
-		navigation.navigate("Map");
-	};
+  useEffect(() => {
+    fetchAndSetProfile();
+    registerForPushNotifications();
 
-	if (isLoading) return <Text>Loading...</Text>;
+    notificationListener.current =
+      Notifications.addNotificationReceivedListener((notification) => {
+        setNotification(true);
+      });
 
-	console.log(profile);
+    responseListener.current =
+      Notifications.addNotificationResponseReceivedListener((response) => {
+        console.log(response);
+      });
 
-	return (
-		<View>
-			<View>
-				<Text>Home</Text>
-				<Text>{profile?.name}</Text>
-				<Text>{profile?.posts[0]?.title}</Text>
-				<Text>{profile?.posts[0]?.content}</Text>
-			</View>
-			<View>
-				<Button title="Chamar notificação" onPress={handleCallNotification} />
+    return () => {
+      if (notificationListener.current !== undefined) {
+        Notifications.removeNotificationSubscription(
+          notificationListener.current
+        );
+      }
 
-				<TouchableOpacity onPress={openMap}>
-					<Text>Abrir Mapa</Text>
-				</TouchableOpacity>
-			</View>
-			{/* <BottomNavgator /> */}
-		</View>
-	);
+      if (responseListener.current !== undefined) {
+        Notifications.removeNotificationSubscription(responseListener.current);
+      }
+    };
+  }, []);
+
+  const openMap = () => {
+    navigation.navigate("Map");
+  };
+
+  if (isLoading) return <Text>Loading...</Text>;
+
+  console.log(profile);
+
+  return (
+    <View>
+      <View>
+        <Text>Home</Text>
+        <Text>{profile?.name}</Text>
+        <Text>{profile?.posts[0]?.title}</Text>
+        <Text>{profile?.posts[0]?.content}</Text>
+      </View>
+      <View>
+        <Button title="Chamar notificação" onPress={handleCallNotification} />
+
+        <TouchableOpacity onPress={openMap}>
+          <Text>Abrir Mapa</Text>
+        </TouchableOpacity>
+      </View>
+      {/* <BottomNavgator /> */}
+    </View>
+  );
 }
