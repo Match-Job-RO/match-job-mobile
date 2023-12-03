@@ -1,8 +1,9 @@
 import { IPost } from "./post.interface";
+import { IUserData } from "./user.interface";
 
 export interface IProfile {
 	bio: string;
-	name: string;
+	user: IUserData;
 	createdAt: string;
 	genre: string;
 	id: number;
