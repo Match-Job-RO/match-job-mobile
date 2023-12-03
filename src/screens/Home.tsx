@@ -53,6 +53,11 @@ export default function Home() {
 		}
 	}
 
+	async function clearCache() {
+		await AsyncStorage.clear();
+		navigation.navigate("Login");
+	}
+
 	async function handleCallNotification() {
 		await Notifications.scheduleNotificationAsync({
 			content: {
@@ -159,6 +164,12 @@ export default function Home() {
 
 						<TouchableOpacity onPress={openMap}>
 							<Text className="bg-blue-500 p-2 mt-2text-white">Abrir Mapa</Text>
+						</TouchableOpacity>
+
+						<TouchableOpacity onPress={clearCache}>
+							<Text className="bg-blue-500 p-2 mt-2text-white">
+								Limpar Cache
+							</Text>
 						</TouchableOpacity>
 					</View>
 

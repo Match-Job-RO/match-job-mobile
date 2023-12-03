@@ -1,11 +1,15 @@
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
-import Navigator from "./src/Navgator/Navgator";
+import { TabNavigator } from "./src/Navgator/Navigator";
+import { StatusBar } from "expo-status-bar";
 
 export default function App(): JSX.Element {
 	return (
 		<NavigationContainer>
-			<Navigator />
+			<>
+				<StatusBar style="auto" />
+				<TabNavigator />
+			</>
 		</NavigationContainer>
 	);
 }
