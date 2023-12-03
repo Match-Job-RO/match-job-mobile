@@ -1,3 +1,4 @@
+import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Login from "../screens/Login";
@@ -8,30 +9,44 @@ import Map from "../screens/Map";
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
-export function AuthNavigator() {
-  return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="Login" component={Login} />
-      <Stack.Screen name="Signup" component={Signup} />
-      <Stack.Screen name="Home" component={Home} />
-    </Stack.Navigator>
-  );
+function AuthStack() {
+	return (
+		<Stack.Navigator screenOptions={{ headerShown: false }}>
+			<Stack.Screen name="Login" component={Login} />
+			<Stack.Screen name="Signup" component={Signup} />
+			<Stack.Screen name="Home" component={Home} />
+		</Stack.Navigator>
+	);
 }
-
-export function StackTabNavigator() {
-  return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="Home" component={Home} />
-      <Stack.Screen name="Map" component={Map} />
-    </Stack.Navigator>
-  );
+function MainStack() {
+	return (
+		<Stack.Navigator screenOptions={{ headerShown: false }}>
+			<Stack.Screen name="Home" component={Home} />
+			<Stack.Screen name="Map" component={Map} />
+		</Stack.Navigator>
+	);
 }
-
-export function TabNavigator() {
-  return (
-    <Tab.Navigator screenOptions={{ headerShown: false }}>
-      <Tab.Screen name="Home" component={StackTabNavigator} />
-      <Tab.Screen name="Map" component={StackTabNavigator} />
-    </Tab.Navigator>
-  );
+function TabNavigator() {
+	return (
+		<Tab.Navigator screenOptions={{ headerShown: false }}>
+			<Tab.Screen name="Home" component={MainStack} />
+			<Tab.Screen name="Map" component={Map} />
+		</Tab.Navigator>
+	);
+}
+export default function RootNavigator() {
+	return (
+		<Stack.Navigator screenOptions={{ headerShown: false }}>
+			<Stack.Screen
+				name="Auth"
+				component={AuthStack}
+				options={{ animationEnabled: false }}
+			/>
+			<Stack.Screen
+				name="Main"
+				component={TabNavigator}
+				options={{ animationEnabled: false }}
+			/>
+		</Stack.Navigator>
+	);
 }

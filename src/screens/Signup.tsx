@@ -28,7 +28,7 @@ export default function Signup(): JSX.Element {
 		};
 		await createProfile(creatProfielData, loginData.token);
 
-		navigator.navigate("Home");
+		navigator.navigate("Main");
 	}
 
 	return (
