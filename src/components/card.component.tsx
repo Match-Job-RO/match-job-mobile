@@ -1,6 +1,6 @@
 import { SafeAreaView, View, Text } from "react-native";
 import { IPostCard } from "../intefarces/post.interface";
-export default function CardComponent(post: IPostCard) {
+export default function CardComponent(post: Readonly<IPostCard>) {
 	return (
 		<SafeAreaView>
 			<View className="bg-white rounded-lg shadow p-6 my-4 mx-2">

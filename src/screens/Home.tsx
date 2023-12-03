@@ -20,7 +20,6 @@ import CardComponent from "../components/card.component";
 import RoundButton from "../components/roundButton.component";
 
 export default function Home() {
-  
 	const navigation = useNavigation();
 	const [profile, setProfile] = useState({} as IProfile);
 	const [expoPushToken, setExpoPushToken] = useState("");
@@ -28,8 +27,6 @@ export default function Home() {
 	const responseListener = useRef<Notifications.Subscription>();
 	const [notification, setNotification] = useState(false);
 	const [isLoading, setIsLoading] = useState(true);
-	const [token, setToken] = useState("");
-	const [userId, setUserId] = useState<number>();
 
 	async function getLocalStorageItem(): Promise<ILoginResponse> {
 		const jsonValue = await AsyncStorage.getItem("loginData");
@@ -141,7 +138,7 @@ export default function Home() {
 
 	return (
 		<ScrollView>
-			<SafeAreaView className="p-16">
+			<SafeAreaView className="p-16 h-full">
 				<View className="flex justify-center items-center py-16">
 					<View className="mb-8">
 						<Text className="font-light text-4xl text-purple">MATCH JOB</Text>
@@ -174,9 +171,9 @@ export default function Home() {
 							</Text>
 						</TouchableOpacity>
 					</View>
-					<RoundButton />
 					{/* <BottomNavgator /> */}
 				</View>
+				<RoundButton />
 			</SafeAreaView>
 		</ScrollView>
 	);
