@@ -5,6 +5,7 @@ import Login from "../screens/Login";
 import Home from "../screens/Home";
 import Signup from "../screens/Signup";
 import Map from "../screens/Map";
+import PostService from "../screens/PostService";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -15,6 +16,7 @@ function AuthStack() {
 			<Stack.Screen name="Login" component={Login} />
 			<Stack.Screen name="Signup" component={Signup} />
 			<Stack.Screen name="Home" component={Home} />
+			<Stack.Screen name="PostService" component={PostService} />
 		</Stack.Navigator>
 	);
 }

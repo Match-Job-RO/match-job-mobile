@@ -1,9 +1,10 @@
 import React, { ReactElement, useState } from "react";
 import { View, TouchableOpacity, Text } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
 export default function RoundButton(): ReactElement<any, any> {
 	const [isOpen, setIsOpen] = useState(false);
-
+	const navigation = useNavigation();
 	const handlePress = () => {
 		setIsOpen(!isOpen);
 	};
@@ -14,8 +15,7 @@ export default function RoundButton(): ReactElement<any, any> {
 	};
 
 	const handlePublicarServico = () => {
-		// Adicione a lógica para navegar para a tela de publicar serviço
-		console.log("Publicar Serviço clicado");
+		navigation.navigate("PostService");
 	};
 
 	return (
