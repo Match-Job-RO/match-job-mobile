@@ -12,3 +12,8 @@ export interface IProfile {
 	updatedAt: string;
 	userId: number;
 }
+
+export interface ICreateProfile {
+	name: string;
+	userId: number;
+}
