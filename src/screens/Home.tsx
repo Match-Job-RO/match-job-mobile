@@ -19,6 +19,7 @@ import { ScrollView } from "react-native-gesture-handler";
 import CardComponent from "../components/card.component";
 
 export default function Home() {
+  
 	const navigation = useNavigation();
 	const [profile, setProfile] = useState({} as IProfile);
 	const [expoPushToken, setExpoPushToken] = useState("");
