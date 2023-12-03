@@ -17,6 +17,7 @@ import { IUserData } from "../intefarces/user.interface";
 import { IProfile } from "../intefarces/profile.interface";
 import { ScrollView } from "react-native-gesture-handler";
 import CardComponent from "../components/card.component";
+import RoundButton from "../components/roundButton.component";
 
 export default function Home() {
 	const navigation = useNavigation();
@@ -161,7 +162,7 @@ export default function Home() {
 							<Text className="bg-blue-500 p-2 mt-2text-white">Abrir Mapa</Text>
 						</TouchableOpacity>
 					</View>
-
+					<RoundButton />
 					{/* <BottomNavgator /> */}
 				</View>
 			</SafeAreaView>
