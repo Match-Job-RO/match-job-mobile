@@ -17,6 +17,7 @@ import { IUserData } from "../intefarces/user.interface";
 import { IProfile } from "../intefarces/profile.interface";
 import { ScrollView } from "react-native-gesture-handler";
 import CardComponent from "../components/card.component";
+import RoundButton from "../components/roundButton.component";
 
 export default function Home() {
   
@@ -173,7 +174,7 @@ export default function Home() {
 							</Text>
 						</TouchableOpacity>
 					</View>
-
+					<RoundButton />
 					{/* <BottomNavgator /> */}
 				</View>
 			</SafeAreaView>
