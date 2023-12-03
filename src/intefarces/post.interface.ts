@@ -6,3 +6,9 @@ export interface IPost {
 	updatedAt: string;
 	userId: number;
 }
+
+export interface IPostCard {
+	user: string;
+	title: string;
+	content: string;
+}
