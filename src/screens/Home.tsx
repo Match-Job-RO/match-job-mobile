@@ -125,20 +125,21 @@ export default function Home() {
   console.log(profile);
 
   return (
-    <View>
-      <View>
-        <Text>Home</Text>
-        <Text>{profile?.name}</Text>
-        <Text>{profile?.posts[0]?.title}</Text>
-        <Text>{profile?.posts[0]?.content}</Text>
+    <View className="flex-1 p-4">
+      <View className="mb-4">
+        <Text className="text-xl font-bold">Home</Text>
+        <Text className="text-lg">{profile?.name}</Text>
+        <Text className="text-base">{profile?.posts[0]?.title}</Text>
+        <Text className="text-base">{profile?.posts[0]?.content}</Text>
       </View>
       <View>
         <Button title="Chamar notificação" onPress={handleCallNotification} />
 
         <TouchableOpacity onPress={openMap}>
-          <Text>Abrir Mapa</Text>
+          <Text className="bg-blue-500 p-2 mt-2text-white">Abrir Mapa</Text>
         </TouchableOpacity>
       </View>
+
       {/* <BottomNavgator /> */}
     </View>
   );
