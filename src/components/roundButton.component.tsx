@@ -1,6 +1,7 @@
 import React, { ReactElement, useState } from "react";
 import { View, TouchableOpacity, Text } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { IPostType } from "../intefarces/post.interface";
 
 export default function RoundButton(): ReactElement<any, any> {
 	const [isOpen, setIsOpen] = useState(false);
@@ -10,12 +11,11 @@ export default function RoundButton(): ReactElement<any, any> {
 	};
 
 	const handleContratarServico = () => {
-		// Adicione a lógica para navegar para a tela de contratar serviço
-		console.log("Contratar Serviço clicado");
+		navigation.navigate("Post", { postType: IPostType.Job });
 	};
 
 	const handlePublicarServico = () => {
-		navigation.navigate("PostService");
+		navigation.navigate("Post", { postType: IPostType.Service });
 	};
 
 	return (

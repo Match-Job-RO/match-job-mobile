@@ -5,7 +5,7 @@ import Login from "../screens/Login";
 import Home from "../screens/Home";
 import Signup from "../screens/Signup";
 import Map from "../screens/Map";
-import PostService from "../screens/PostService";
+import Post from "../screens/Post";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -13,10 +13,10 @@ const Tab = createBottomTabNavigator();
 function AuthStack() {
 	return (
 		<Stack.Navigator screenOptions={{ headerShown: false }}>
+			<Stack.Screen name="Home" component={Home} />
 			<Stack.Screen name="Login" component={Login} />
 			<Stack.Screen name="Signup" component={Signup} />
-			<Stack.Screen name="Home" component={Home} />
-			<Stack.Screen name="PostService" component={PostService} />
+			<Stack.Screen name="Post" component={Post} />
 		</Stack.Navigator>
 	);
 }

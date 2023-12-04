@@ -90,7 +90,7 @@ export default function Home() {
 		const userData: IUserData = await fetchUserData();
 		try {
 			const profileData: IProfile = await getProfileById(
-				userData.profiles.id!,
+				userData.profiles.id,
 				loginData.token
 			);
 
@@ -146,6 +146,7 @@ export default function Home() {
 					{profile.posts.length > 0 ? (
 						profile.posts.map((post) => (
 							<CardComponent
+								postType={post.postType}
 								key={post.id}
 								user={profile.user.name}
 								title={post.title}

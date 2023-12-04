@@ -1,3 +1,4 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { ICreateProfile, IProfile } from "../intefarces/profile.interface";
 
 export async function getProfileById(
@@ -14,9 +15,10 @@ export async function getProfileById(
 		},
 	});
 	if (!response.ok) {
-		throw new Error(`Erro ao fazer login: ${response.statusText}`);
+		throw new Error(`Erro: ${response.statusText}`);
 	}
 	const profile: IProfile = await response.json();
+	await AsyncStorage.setItem("profileData", JSON.stringify(profile));
 
 	return profile;
 }

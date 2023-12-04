@@ -48,7 +48,7 @@ export default function Signup(): JSX.Element {
 					<View>
 						<TextInput
 							placeholder="Nome"
-							className="p-2 text-2xl font-extralight"
+							className="border border-gray-300 rounded-lg p-2 text-2xl font-extralight"
 							onChangeText={(text) => setName(text)}
 							value={name}
 						/>
@@ -57,7 +57,7 @@ export default function Signup(): JSX.Element {
 						{/* Ícone de Email */}
 						<TextInput
 							placeholder="E-mail"
-							className="p-2 text-2xl font-extralight"
+							className="border border-gray-300 rounded-lg p-2 text-2xl font-extralight"
 							textContentType="emailAddress"
 							onChangeText={(text) => setEmail(text)}
 							value={email}
@@ -67,7 +67,7 @@ export default function Signup(): JSX.Element {
 						{/* Ícone de cadeado */}
 						<TextInput
 							placeholder="Senha"
-							className="p-2 text-2xl font-extralight"
+							className="border border-gray-300 rounded-lg p-2 text-2xl font-extralight"
 							onChangeText={(text) => setPassword(text)}
 							value={password}
 						/>

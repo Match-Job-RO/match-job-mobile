@@ -43,7 +43,7 @@ export default function Login() {
 						{/* Icone de Email */}
 						<TextInput
 							placeholder="E-mail"
-							className="p-2 text-2xl font-extralight"
+							className="p-2 border border-gray-300 rounded-lg text-2xl font-extralight"
 							textContentType="emailAddress"
 							onChangeText={setEmail}
 							value={email}
@@ -53,7 +53,7 @@ export default function Login() {
 						{/* Icone de cadeado */}
 						<TextInput
 							placeholder="Senha"
-							className="p-2 text-2xl font-extralight"
+							className="border border-gray-300 rounded-lg p-2 text-2xl font-extralight"
 							textContentType="password"
 							onChangeText={setPassword}
 							value={password}
