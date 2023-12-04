@@ -3,14 +3,18 @@ import { NavigationContainer } from "@react-navigation/native";
 
 import { StatusBar } from "expo-status-bar";
 import RootNavigator from "./src/Navgator/Navigator";
+import TabNavigator from "./src/Navgator/Navigator";
+
+import { Ionicons } from "@expo/vector-icons";
 
 export default function App(): JSX.Element {
-	return (
-		<NavigationContainer>
-			<>
-				<StatusBar style="auto" />
-				<RootNavigator />
-			</>
-		</NavigationContainer>
-	);
+  Ionicons.loadFont();
+  return (
+    <NavigationContainer>
+      <>
+        <StatusBar style="auto" />
+        <TabNavigator />
+      </>
+    </NavigationContainer>
+  );
 }
