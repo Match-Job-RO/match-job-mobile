@@ -1,10 +1,6 @@
 import React, { useState } from "react";
 import { View, Text, TextInput, ScrollView, SafeAreaView } from "react-native";
-import {
-	ICreatePostRequest,
-	IPostRequest,
-	IPostType,
-} from "../intefarces/post.interface";
+import { IPostRequest, IPostType } from "../intefarces/post.interface";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { ILoginResponse } from "../intefarces/login.interface";
