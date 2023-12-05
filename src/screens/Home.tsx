@@ -128,8 +128,8 @@ export default function Home() {
 							<CardComponent
 								postType={post.postType}
 								key={post.id}
-								user={post.profile.user.name}
-								phone={post.profile.phone}
+								user={post.profile!.user!.name}
+								phone={post.profile!.phone}
 								title={post.title}
 								content={post.content}
 							/>
