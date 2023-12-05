@@ -47,7 +47,7 @@ export default function Post({ route }) {
 		const createdPost = await createPost(postData, userData.token);
 		console.log(createdPost);
 
-		navigation.navigate("Home");
+		navigation.navigate("Main");
 	}
 
 	return (
