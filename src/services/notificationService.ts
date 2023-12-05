@@ -42,7 +42,6 @@ export async function registerForPushNotificationsAsync() {
 			projectId: Constants.default.expoConfig?.extra?.eas.projectId,
 		});
 		token = expoToken.data;
-		console.log(token);
 	} else {
 		alert("So é possivel em dispositivos fisicos");
 	}

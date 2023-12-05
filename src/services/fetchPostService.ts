@@ -13,7 +13,6 @@ export async function createPost(postData: IPost, token: string) {
 	});
 
 	if (!response.ok) {
-		console.log(response.json());
 		throw new Error("Erro ao tentar criar o post");
 	}
 
@@ -34,7 +33,6 @@ export async function getPostList(token: string) {
 	});
 
 	if (!response.ok) {
-		console.log(response.json());
 		throw new Error("Nenhum post encontrado");
 	}
 
@@ -55,7 +53,6 @@ export async function getPostById(id: number, token: string) {
 	});
 
 	if (!response.ok) {
-		console.log(response.json());
 		throw new Error("Nenhum post encontrado");
 	}
 
@@ -77,7 +74,6 @@ export async function editPost(postData: IPost, token: string) {
 	});
 
 	if (!response.ok) {
-		console.log(response.json());
 		throw new Error("Nenhum post encontrado");
 	}
 

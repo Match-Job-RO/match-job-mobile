@@ -2,10 +2,6 @@ import React, { useEffect } from "react";
 import { SafeAreaView, View, Text } from "react-native";
 import { IPostCard, IPostType } from "../intefarces/post.interface";
 export default function CardComponent(post: Readonly<IPostCard>) {
-	useEffect(() => {
-		console.log(post);
-	});
-
 	return (
 		<SafeAreaView>
 			<View className="bg-white rounded-lg shadow p-6 my-4 mx-2">
