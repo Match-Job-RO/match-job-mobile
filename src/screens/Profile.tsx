@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import {
 	View,
 	TextInput,
-	Button,
 	Text,
 	TouchableOpacity,
 	ScrollView,
@@ -12,11 +11,11 @@ import { ILoginResponse } from "../intefarces/login.interface";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
 import {
-	UpdateProfile,
 	getProfileByUserId,
 	updateProfile,
 } from "../services/fetchProfileService";
 import { IProfile } from "../intefarces/profile.interface";
+import Toast from "react-native-root-toast";
 
 export default function Profile() {
 	const navigation = useNavigation();
@@ -42,6 +41,8 @@ export default function Profile() {
 			userData.token
 		);
 
+		setBio(profileData.bio);
+		setPhone(profileData.phone);
 		setProfile(profileData);
 	}
 
@@ -50,14 +51,21 @@ export default function Profile() {
 
 		profile.bio = bio;
 		profile.phone = phone;
-
-		const profileData = await updateProfile(profile, userData.token);
-		console.log(profileData);
+		await updateProfile(profile, userData.token);
+		Toast.show("Perfil atualizado com sucesso!", {
+			duration: Toast.durations.LONG,
+			position: Toast.positions.BOTTOM,
+			shadow: true,
+			animation: true,
+			hideOnPress: true,
+			delay: 0,
+		});
+		navigation.navigate("Home");
 	}
 
 	useEffect(() => {
 		getProfile();
-	}, [profile]);
+	}, [profile.bio, profile.phone]);
 
 	return (
 		<ScrollView>
@@ -75,7 +83,7 @@ export default function Profile() {
 						<View>
 							<Text className="text-purple text-xl p-2">Bio</Text>
 							<TextInput
-								className="border border-gray-300 rounded-lg
+								className="border w-64 border-gray-300 rounded-lg
 									 p-2 mb-4"
 								placeholder="bio"
 								value={bio}
@@ -85,7 +93,7 @@ export default function Profile() {
 						<View>
 							<Text className="text-purple text-xl p-2">Telefone</Text>
 							<TextInput
-								className="border border-gray-300 rounded-lg
+								className="border w-64 border-gray-300 rounded-lg
 									 p-2 mb-4"
 								keyboardType="numeric"
 								placeholder="Telefone"

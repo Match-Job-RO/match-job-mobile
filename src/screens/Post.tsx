@@ -8,6 +8,7 @@ import { useNavigation } from "@react-navigation/native";
 import { createPost } from "../services/fetchPostService";
 import { IProfile } from "../intefarces/profile.interface";
 import { getProfileByUserId } from "../services/fetchProfileService";
+import Toast from "react-native-root-toast";
 
 export default function Post({ route }) {
 	const [title, setTitle] = useState<string>("");
@@ -44,7 +45,14 @@ export default function Post({ route }) {
 		console.log(postData);
 
 		const createdPost = await createPost(postData, userData.token);
-		console.log(createdPost);
+		Toast.show("Perfil atualizado com sucesso!", {
+			duration: Toast.durations.LONG,
+			position: Toast.positions.BOTTOM,
+			shadow: true,
+			animation: true,
+			hideOnPress: true,
+			delay: 0,
+		});
 
 		navigation.navigate("Main");
 	}

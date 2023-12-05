@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { login } from "../services/loginService";
+import Toast from "react-native-root-toast";
 
 export default function Login() {
 	const navigation = useNavigation();
@@ -20,9 +21,20 @@ export default function Login() {
 			email,
 			password,
 		};
-		await login(userData).then((data) => {
-			navigation.navigate("Main");
-		});
+		await login(userData)
+			.then((data) => {
+				navigation.navigate("Main");
+			})
+			.catch(() => {
+				Toast.show("Login inválido!", {
+					duration: Toast.durations.LONG,
+					position: Toast.positions.BOTTOM,
+					shadow: true,
+					animation: true,
+					hideOnPress: true,
+					delay: 0,
+				});
+			});
 	}
 
 	return (
