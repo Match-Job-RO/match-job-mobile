@@ -18,10 +18,12 @@ import { IProfile } from "../intefarces/profile.interface";
 import { ScrollView } from "react-native-gesture-handler";
 import CardComponent from "../components/card.component";
 import RoundButton from "../components/roundButton.component";
+import { IPost } from "../intefarces/post.interface";
+import { getPostList } from "../services/fetchPostService";
 
 export default function Home() {
 	const navigation = useNavigation();
-	const [profile, setProfile] = useState({} as IProfile);
+	const [postList, setPostList] = useState({} as IPost[]);
 	const [expoPushToken, setExpoPushToken] = useState("");
 	const notificationListener = useRef<Notifications.Subscription>();
 	const responseListener = useRef<Notifications.Subscription>();
@@ -69,40 +71,20 @@ export default function Home() {
 		});
 	}
 
-	async function fetchUserData() {
-		try {
-			const loginData = await getLocalStorageItem();
-			const userData: IUserData = await getUserById(
-				loginData.userId,
-				loginData.token
-			);
-
-			return userData;
-		} catch (error) {
-			console.log(error);
-
-			navigation.navigate("Login");
-		}
-	}
-
-	async function fetchAndSetProfile() {
+	async function fetchPosts() {
 		const loginData = await getLocalStorageItem();
-		const userData: IUserData = await fetchUserData();
 		try {
-			const profileData: IProfile = await getProfileById(
-				userData.profiles.id,
-				loginData.token
-			);
+			const postList: IPost[] = await getPostList(loginData.token);
 
-			setProfile(profileData);
+			setPostList(postList);
 			setIsLoading(false);
 		} catch (error) {
-			console.error("Nenhum perfil cadastrado");
+			console.error("Nenhum post encontrado");
 		}
 	}
 
 	useEffect(() => {
-		fetchAndSetProfile();
+		fetchPosts();
 		registerForPushNotifications();
 
 		notificationListener.current =
@@ -134,8 +116,6 @@ export default function Home() {
 
 	if (isLoading) return <Text>Loading...</Text>;
 
-	console.log(profile);
-
 	return (
 		<ScrollView>
 			<SafeAreaView className="p-16 h-full">
@@ -143,12 +123,12 @@ export default function Home() {
 					<View className="mb-8">
 						<Text className="font-light text-4xl text-purple">MATCH JOB</Text>
 					</View>
-					{profile.posts.length > 0 ? (
-						profile.posts.map((post) => (
+					{postList.length > 0 ? (
+						postList.map((post) => (
 							<CardComponent
 								postType={post.postType}
 								key={post.id}
-								user={profile.user.name}
+								user={post.profile.user.name}
 								title={post.title}
 								content={post.content}
 							/>

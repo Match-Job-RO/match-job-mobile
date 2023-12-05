@@ -3,7 +3,7 @@ import { IUserData } from "./user.interface";
 
 export interface IProfile {
 	bio: string;
-	user: IUserData;
+	user?: IUserData;
 	createdAt: string;
 	genre: string;
 	id: number;

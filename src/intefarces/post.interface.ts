@@ -1,3 +1,5 @@
+import { IProfile } from "./profile.interface";
+
 export interface IPost {
 	id?: number;
 	title: string;
@@ -5,6 +7,7 @@ export interface IPost {
 	content: string;
 	createdAt?: string;
 	updatedAt?: string;
+	profile?: IProfile;
 	profileId: number;
 }
 

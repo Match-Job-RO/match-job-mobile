@@ -23,6 +23,28 @@ export async function getProfileById(
 	return profile;
 }
 
+export async function getProfileByUserId(
+	userId: number,
+	token: string
+): Promise<IProfile> {
+	const baseUrl = process.env.EXPO_PUBLIC_BASE_URL;
+	const bearerToken = `Bearer ${token}`;
+	const response = await fetch(`${baseUrl}/profile/user/${userId}`, {
+		method: "GET",
+		headers: {
+			"Content-Type": "application/json",
+			Authorization: bearerToken,
+		},
+	});
+	if (!response.ok) {
+		throw new Error(`Erro: ${response.statusText}`);
+	}
+	const profile: IProfile = await response.json();
+	await AsyncStorage.setItem("profileData", JSON.stringify(profile));
+
+	return profile;
+}
+
 export async function createProfile(
 	profileData: ICreateProfile,
 	token: string

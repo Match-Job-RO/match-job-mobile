@@ -7,6 +7,7 @@ import { ILoginResponse } from "../intefarces/login.interface";
 import { useNavigation } from "@react-navigation/native";
 import { createPost } from "../services/fetchPostService";
 import { IProfile } from "../intefarces/profile.interface";
+import { getProfileByUserId } from "../services/fetchProfileService";
 
 export default function Post({ route }) {
 	const [title, setTitle] = useState<string>("");
@@ -14,37 +15,39 @@ export default function Post({ route }) {
 	const postType = route.params.postType;
 	const navigation = useNavigation();
 
-	async function getLocalStorageItem(): Promise<IPostRequest> {
+	async function getLocalStorageItem(): Promise<ILoginResponse> {
 		const jsonValue = await AsyncStorage.getItem("profileData");
 		const userJsonValue = await AsyncStorage.getItem("loginData");
 
 		if (jsonValue == null) {
 			navigation.navigate("Login");
 		}
-
-		const data: IProfile = JSON.parse(jsonValue!);
 		const userData: ILoginResponse = JSON.parse(userJsonValue!);
 
 		console.log(userData);
 
-		return { profileId: data.id, token: userData.token };
+		return userData;
 	}
 	async function handlePublish() {
-		const profileData = await getLocalStorageItem();
+		const userData = await getLocalStorageItem();
+		const profileData = await getProfileByUserId(
+			userData.userId,
+			userData.token
+		);
 		console.log(profileData);
 
 		const postData = {
 			title: title,
 			content: content,
 			postType: postType,
-			profileId: profileData.profileId,
+			profileId: profileData.id,
 		};
 		console.log(postData);
 
-		const createdPost = await createPost(postData, profileData.token);
+		const createdPost = await createPost(postData, userData.token);
 		console.log(createdPost);
 
-		navigation.navigate("Main");
+		navigation.navigate("Home");
 	}
 
 	return (
