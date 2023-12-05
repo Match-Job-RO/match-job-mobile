@@ -129,6 +129,7 @@ export default function Home() {
 								postType={post.postType}
 								key={post.id}
 								user={post.profile.user.name}
+								phone={post.profile.phone}
 								title={post.title}
 								content={post.content}
 							/>

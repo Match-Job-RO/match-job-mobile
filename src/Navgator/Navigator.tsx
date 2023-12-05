@@ -7,6 +7,7 @@ import Signup from "../screens/Signup";
 import Map from "../screens/Map";
 import Post from "../screens/Post";
 import { Ionicons } from "@expo/vector-icons";
+import Profile from "../screens/Profile";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -18,6 +19,7 @@ function AuthStack() {
 			<Stack.Screen name="Signup" component={Signup} />
 			<Stack.Screen name="Home" component={Home} />
 			<Stack.Screen name="Post" component={Post} />
+			<Stack.Screen name="Profile" component={Profile} />
 		</Stack.Navigator>
 	);
 }
@@ -26,7 +28,7 @@ function MainStack() {
 		<Stack.Navigator screenOptions={{ headerShown: false }}>
 			<Stack.Screen name="Home" component={Home} />
 			<Stack.Screen name="Post" component={Post} />
-			<Stack.Screen name="Map" component={Map} />
+			<Stack.Screen name="Profile" component={Profile} />
 		</Stack.Navigator>
 	);
 }
@@ -40,8 +42,8 @@ function TabNavigator() {
 
 					if (route.name === "Home") {
 						iconName = focused ? "home" : "home-outline";
-					} else if (route.name === "Map") {
-						iconName = focused ? "map" : "map-outline";
+					} else if (route.name === "Profile") {
+						iconName = focused ? "person" : "person-outline";
 					}
 
 					return <Ionicons name={iconName} size={size} color={color} />;
@@ -53,7 +55,7 @@ function TabNavigator() {
 				style: "bg-white",
 			}}>
 			<Tab.Screen name="Home" component={Home} />
-			<Tab.Screen name="Map" component={Map} />
+			<Tab.Screen name="Profile" component={Profile} />
 		</Tab.Navigator>
 	);
 }
@@ -61,13 +63,13 @@ export default function RootNavigator() {
 	return (
 		<Stack.Navigator screenOptions={{ headerShown: false }}>
 			<Stack.Screen
-				name="Root"
-				component={MainStack}
+				name="Main"
+				component={TabNavigator}
 				options={{ animationEnabled: false }}
 			/>
 			<Stack.Screen
-				name="Main"
-				component={TabNavigator}
+				name="Root"
+				component={MainStack}
 				options={{ animationEnabled: false }}
 			/>
 			<Stack.Screen

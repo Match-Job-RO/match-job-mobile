@@ -34,7 +34,6 @@ export default function Post({ route }) {
 			userData.userId,
 			userData.token
 		);
-		console.log(profileData);
 
 		const postData = {
 			title: title,

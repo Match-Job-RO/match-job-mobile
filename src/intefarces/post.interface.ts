@@ -21,6 +21,7 @@ export interface IPostCard {
 	user: string;
 	postType: IPostType;
 	title: string;
+	phone: string;
 	content: string;
 }
 

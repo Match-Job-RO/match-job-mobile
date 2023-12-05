@@ -69,3 +69,30 @@ export async function createProfile(
 
 	return createdProfileData;
 }
+
+export async function updateProfile(
+	profileData: IProfile,
+	token: string
+): Promise<IProfile> {
+	const baseUrl = process.env.EXPO_PUBLIC_BASE_URL;
+	const bearerToken = `Bearer ${token}`;
+	const response = await fetch(`${baseUrl}/profile/${profileData.id}`, {
+		method: "PATCH",
+		headers: {
+			"Content-Type": "application/json",
+			Authorization: bearerToken,
+		},
+		body: JSON.stringify(profileData),
+	});
+
+	console.log(response);
+
+	if (!response.ok) {
+		console.log(response.json());
+		throw new Error("Erro ao tentar criar o perfil");
+	}
+
+	const updatedProfileData = response.json();
+
+	return updatedProfileData;
+}
