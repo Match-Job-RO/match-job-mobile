@@ -24,9 +24,6 @@ export default function Post({ route }) {
 			navigation.navigate("Login");
 		}
 		const userData: ILoginResponse = JSON.parse(userJsonValue!);
-
-		console.log(userData);
-
 		return userData;
 	}
 	async function handlePublish() {
@@ -42,7 +39,6 @@ export default function Post({ route }) {
 			postType: postType,
 			profileId: profileData.id,
 		};
-		console.log(postData);
 
 		const createdPost = await createPost(postData, userData.token);
 		Toast.show("Perfil atualizado com sucesso!", {

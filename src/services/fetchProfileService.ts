@@ -61,7 +61,6 @@ export async function createProfile(
 	});
 
 	if (!response.ok) {
-		console.log(response.json());
 		throw new Error("Erro ao tentar criar o perfil");
 	}
 
@@ -85,10 +84,7 @@ export async function updateProfile(
 		body: JSON.stringify(profileData),
 	});
 
-	console.log(response);
-
 	if (!response.ok) {
-		console.log(response.json());
 		throw new Error("Erro ao tentar criar o perfil");
 	}
 

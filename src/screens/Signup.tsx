@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { View, Text, TextInput } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -7,12 +7,67 @@ import { signup } from "../services/signupService";
 import { login } from "../services/loginService";
 import { createProfile } from "../services/fetchProfileService";
 import { ICreateProfile } from "../intefarces/profile.interface";
+import { registerForPushNotificationsAsync } from "../services/notificationService";
+import * as Notifications from "expo-notifications";
 
 export default function Signup(): JSX.Element {
+	const [expoPushToken, setExpoPushToken] = useState("");
+	const notificationListener = useRef<Notifications.Subscription>();
+	const responseListener = useRef<Notifications.Subscription>();
+	const [notification, setNotification] = useState(false);
 	const navigator = useNavigation();
 	const [name, setName] = useState<string>("");
 	const [email, setEmail] = useState<string>("");
 	const [password, setPassword] = useState<string>("");
+
+	async function handleCallNotification() {
+		await Notifications.scheduleNotificationAsync({
+			content: {
+				title: "Bem vindo ao Match Job",
+				body: "Ficamos Felizes por estar Aqui!",
+			},
+			trigger: {
+				seconds: 5,
+			},
+		});
+	}
+
+	async function registerForPushNotifications() {
+		try {
+			const token = await registerForPushNotificationsAsync();
+			if (token == null) {
+				console.error("Ops");
+				return;
+			}
+			setExpoPushToken(token);
+		} catch (error) {
+			console.error("Erro ao registrar notificações:", error);
+		}
+	}
+
+	useEffect(() => {
+		registerForPushNotifications();
+
+		notificationListener.current =
+			Notifications.addNotificationReceivedListener((notification) => {
+				setNotification(true);
+			});
+
+		responseListener.current =
+			Notifications.addNotificationResponseReceivedListener((response) => {});
+
+		return () => {
+			if (notificationListener.current !== undefined) {
+				Notifications.removeNotificationSubscription(
+					notificationListener.current
+				);
+			}
+
+			if (responseListener.current !== undefined) {
+				Notifications.removeNotificationSubscription(responseListener.current);
+			}
+		};
+	});
 
 	async function handleSignup() {
 		const userData: ISignupData = {
@@ -27,7 +82,7 @@ export default function Signup(): JSX.Element {
 			name: userData.name,
 		};
 		await createProfile(creatProfielData, loginData.token);
-
+		await handleCallNotification();
 		navigator.navigate("Main");
 	}
 

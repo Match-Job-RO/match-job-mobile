@@ -17,9 +17,6 @@ function AuthStack() {
 		<Stack.Navigator screenOptions={{ headerShown: false }}>
 			<Stack.Screen name="Login" component={Login} />
 			<Stack.Screen name="Signup" component={Signup} />
-			<Stack.Screen name="Home" component={Home} />
-			<Stack.Screen name="Post" component={Post} />
-			<Stack.Screen name="Profile" component={Profile} />
 		</Stack.Navigator>
 	);
 }
@@ -68,8 +65,18 @@ export default function RootNavigator() {
 				options={{ animationEnabled: false }}
 			/>
 			<Stack.Screen
-				name="Root"
-				component={MainStack}
+				name="Home"
+				component={Home}
+				options={{ animationEnabled: false }}
+			/>
+			<Stack.Screen
+				name="Post"
+				component={Post}
+				options={{ animationEnabled: false }}
+			/>
+			<Stack.Screen
+				name="Profile"
+				component={Profile}
 				options={{ animationEnabled: false }}
 			/>
 			<Stack.Screen
