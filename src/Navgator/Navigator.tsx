@@ -14,9 +14,9 @@ const Tab = createBottomTabNavigator();
 function AuthStack() {
 	return (
 		<Stack.Navigator screenOptions={{ headerShown: false }}>
-			<Stack.Screen name="Home" component={Home} />
 			<Stack.Screen name="Login" component={Login} />
 			<Stack.Screen name="Signup" component={Signup} />
+			<Stack.Screen name="Home" component={Home} />
 			<Stack.Screen name="Post" component={Post} />
 		</Stack.Navigator>
 	);
@@ -60,13 +60,13 @@ export default function RootNavigator() {
 	return (
 		<Stack.Navigator screenOptions={{ headerShown: false }}>
 			<Stack.Screen
-				name="Auth"
-				component={AuthStack}
+				name="Main"
+				component={TabNavigator}
 				options={{ animationEnabled: false }}
 			/>
 			<Stack.Screen
-				name="Main"
-				component={TabNavigator}
+				name="Auth"
+				component={AuthStack}
 				options={{ animationEnabled: false }}
 			/>
 		</Stack.Navigator>

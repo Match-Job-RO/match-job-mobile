@@ -34,7 +34,7 @@ export default function Home() {
 		const jsonValue = await AsyncStorage.getItem("loginData");
 
 		if (jsonValue == null) {
-			navigation.navigate("Login");
+			navigation.navigate("Auth");
 		}
 
 		const data: ILoginResponse = JSON.parse(jsonValue!);
@@ -56,7 +56,7 @@ export default function Home() {
 
 	async function clearCache() {
 		await AsyncStorage.clear();
-		navigation.navigate("Login");
+		navigation.navigate("Auth");
 	}
 
 	async function handleCallNotification() {

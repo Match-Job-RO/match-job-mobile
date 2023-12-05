@@ -8,13 +8,13 @@ import TabNavigator from "./src/Navgator/Navigator";
 import { Ionicons } from "@expo/vector-icons";
 
 export default function App(): JSX.Element {
-  Ionicons.loadFont();
-  return (
-    <NavigationContainer>
-      <>
-        <StatusBar style="auto" />
-        <TabNavigator />
-      </>
-    </NavigationContainer>
-  );
+	Ionicons.loadFont();
+	return (
+		<NavigationContainer>
+			<>
+				<StatusBar style="auto" />
+				<TabNavigator />
+			</>
+		</NavigationContainer>
+	);
 }
