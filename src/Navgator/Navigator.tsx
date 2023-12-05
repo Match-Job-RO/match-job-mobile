@@ -26,6 +26,7 @@ function MainStack() {
 		<Stack.Navigator screenOptions={{ headerShown: false }}>
 			<Stack.Screen name="Home" component={Home} />
 			<Stack.Screen name="Map" component={Map} />
+			<Stack.Screen name="Post" component={Post} />
 		</Stack.Navigator>
 	);
 }
@@ -59,6 +60,11 @@ function TabNavigator() {
 export default function RootNavigator() {
 	return (
 		<Stack.Navigator screenOptions={{ headerShown: false }}>
+			<Stack.Screen
+				name="Root"
+				component={MainStack}
+				options={{ animationEnabled: false }}
+			/>
 			<Stack.Screen
 				name="Main"
 				component={TabNavigator}
